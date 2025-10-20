@@ -24,6 +24,7 @@ export default function Home() {
       </Head>
       <div className="interlaced-background">
         <div className="sphere-3d"></div>
+        <div className="grain-overlay"></div>
       </div>
     </>
   );
