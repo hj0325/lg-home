@@ -1,12 +1,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --bg-purple: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --bg-purple: #8B7FC7;
   }
 }
 
@@ -22,6 +24,112 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 연보라색 배경 */
+.interlaced-background {
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg-purple);
+  overflow: hidden;
+}
+
+/* 하단 큰 원형 그라데이션 */
+.sphere-3d {
+  position: absolute;
+  bottom: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(800px, 120vw);
+  height: min(800px, 120vw);
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 50% 30%, 
+      rgba(255, 230, 200, 0.9) 0%,
+      rgba(255, 210, 190, 0.85) 10%,
+      rgba(255, 190, 180, 0.8) 20%,
+      rgba(250, 170, 170, 0.7) 30%,
+      rgba(240, 150, 160, 0.6) 40%,
+      rgba(220, 130, 150, 0.5) 50%,
+      rgba(200, 110, 140, 0.4) 60%,
+      rgba(180, 90, 130, 0.3) 70%,
+      rgba(160, 70, 120, 0.2) 80%,
+      rgba(140, 50, 110, 0.1) 90%,
+      transparent 100%);
+  filter: blur(40px);
+  z-index: 1;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .sphere-3d {
+    width: min(600px, 140vw);
+    height: min(600px, 140vw);
+    bottom: -35%;
+  }
+}
+
+/* 반응형 텍스트 스타일 */
+.gradient-text {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.gradient-text h1 {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.gradient-text h2 {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.gradient-text p {
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  line-height: 1.3;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+/* 반응형 컨테이너 */
+.gradient-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .gradient-text h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+  
+  .gradient-text h2 {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+  }
+  
+  .gradient-text p {
+    font-size: clamp(1rem, 5vw, 1.5rem);
+  }
+  
+  .gradient-container {
+    padding: 1rem;
+  }
 }
 
 * {
