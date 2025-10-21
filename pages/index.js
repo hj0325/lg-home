@@ -23,6 +23,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="interlaced-background">
+        <div className="text-container">
+          <h1 className="main-title">
+            안녕하세요,<br />
+            오늘 기분은 어떠신가요?
+          </h1>
+          <p className="sub-text">한 단어로 표현해주세요!</p>
+        </div>
         <div className="sphere-3d"></div>
         <div className="grain-overlay"></div>
       </div>

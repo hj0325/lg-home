@@ -1,14 +1,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --bg-purple: #ffffff;
+  --bg-purple: #E9E9E9;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --bg-purple: #8B7FC7;
+    --bg-purple: #E9E9E9;
   }
 }
 
@@ -32,6 +32,49 @@ body {
   min-height: 100vh;
   background: var(--bg-purple);
   overflow: hidden;
+}
+
+/* 텍스트 컨테이너 */
+.text-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 180px 70px;
+  max-width: 1200px;
+}
+
+.main-title {
+  font-size: clamp(40px, 7vw, 64px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: #2D2D2D;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.02em;
+}
+
+.sub-text {
+  font-size: clamp(45px, 3.5vw, 50px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #5D5D5D;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* 모바일 텍스트 최적화 */
+@media (max-width: 768px) {
+  .text-container {
+    padding: 80px 32px;
+  }
+  
+  .main-title {
+    font-size: clamp(32px, 8vw, 48px);
+  }
+  
+  .sub-text {
+    font-size: clamp(16px, 4vw, 20px);
+  }
 }
 
 /* 글래스 왜곡 효과 오버레이 */
@@ -106,28 +149,28 @@ body {
 /* 하단 큰 원형 그라데이션 */
 .sphere-3d {
   position: absolute;
-  bottom: -40%;
+  top: 70%;
   left: 50%;
-  transform: translateX(-50%);
-  width: min(1200px, 160vw);
-  height: min(1200px, 160vw);
+  transform: translate(-50%, -50%);
+  width: min(900px, 130vw);
+  height: min(900px, 130vw);
   background: 
     radial-gradient(circle at 50% 30%, 
-      rgba(247, 204, 238, 0.9) 0%,
-      rgba(251, 201, 227, 0.85) 10%,
-      rgba(250, 160, 210, 0.8) 20%,
-      rgba(245, 140, 200, 0.7) 30%,
-      rgba(235, 120, 190, 0.6) 40%,
-      rgba(255, 142, 214, 0.5) 50%,
-      rgba(210, 80, 170, 0.4) 60%,
-      rgba(195, 60, 160, 0.3) 70%,
-      rgba(180, 50, 150, 0.2) 80%,
-      rgba(165, 40, 140, 0.1) 90%,
+      rgb(241, 228, 203) 0%,
+      rgba(252, 211, 224, 0.95) 10%,
+      rgba(237, 170, 215, 0.9) 20%,
+      rgba(226, 145, 199, 0.8) 30%,
+      rgba(226, 145, 199, 0.7) 40%,
+      rgba(239, 170, 207, 0.6) 60%,
+      rgba(240, 192, 247, 0.5) 70%,
+      rgba(252, 208, 230, 0.4) 80%,
+      rgba(255, 212, 221, 0.3) 80%,
+      rgba(250, 255, 216, 0.2) 80%,
       transparent 100%);
   border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
   filter: blur(40px);
   z-index: 1;
-  animation: morphShape 8s ease-in-out infinite, floatUpDown 6s ease-in-out infinite;
+  animation: morphShape 12s ease-in-out infinite, floatFlow 8s ease-in-out infinite;
 }
 
 @keyframes morphShape {
@@ -145,21 +188,29 @@ body {
   }
 }
 
-@keyframes floatUpDown {
-  0%, 100% {
-    transform: translateX(-50%) translateY(0);
+@keyframes floatFlow {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  25% {
+    transform: translate(-50%, calc(-50% - 80px));
   }
   50% {
-    transform: translateX(-50%) translateY(-30px);
+    transform: translate(-50%, calc(-50% - 40px));
+  }
+  75% {
+    transform: translate(-50%, calc(-50% - 100px));
+  }
+  100% {
+    transform: translate(-50%, -50%);
   }
 }
 
 /* 모바일 최적화 */
 @media (max-width: 768px) {
   .sphere-3d {
-    width: min(900px, 180vw);
-    height: min(900px, 180vw);
-    bottom: -45%;
+    width: min(500px, 110vw);
+    height: min(500px, 110vw);
   }
 }
 
