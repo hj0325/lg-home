@@ -127,6 +127,73 @@ body {
   }
 }
 
+/* 이름 입력 컨테이너 */
+.input-container {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+}
+
+.input-label {
+  display: block;
+  font-size: clamp(36px, 7vw, 56px);
+  font-weight: 600;
+  color: #2D2D2D;
+  margin-bottom: 40px;
+  letter-spacing: -0.02em;
+}
+
+.name-input {
+  width: 100%;
+  padding: 24px 36px;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 400;
+  color: #2D2D2D;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 16px;
+  outline: none;
+  text-align: center;
+  letter-spacing: 0.02em;
+  
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 
+              0 4px 16px rgba(0, 0, 0, 0.08);
+  
+  transition: all 0.3s ease;
+}
+
+.name-input::placeholder {
+  color: #9D9D9D;
+  opacity: 0.6;
+}
+
+.name-input:focus {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 
+              0 6px 24px rgba(0, 0, 0, 0.12);
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .input-label {
+    font-size: clamp(28px, 8vw, 40px);
+    margin-bottom: 30px;
+  }
+  
+  .name-input {
+    padding: 20px 28px;
+    font-size: clamp(24px, 7vw, 36px);
+  }
+}
+
 /* 글래스 왜곡 효과 오버레이 */
 .grain-overlay {
   position: absolute;

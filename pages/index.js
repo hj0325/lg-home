@@ -16,9 +16,20 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   const [step, setStep] = useState(1);
+  const [name, setName] = useState("");
 
   const handleTouch = () => {
     setStep(2);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleNameSubmit = (e) => {
+    if (e.key === 'Enter' && name.trim()) {
+      setStep(3);
+    }
   };
 
   return (
@@ -49,6 +60,32 @@ export default function Home() {
       
       {step === 2 && (
         <div className="interlaced-background">
+          <div className="input-container">
+            <label htmlFor="nameInput" className="input-label">이름을 입력해주세요</label>
+            <input
+              id="nameInput"
+              type="text"
+              value={name}
+              onChange={handleNameChange}
+              onKeyPress={handleNameSubmit}
+              placeholder="이름"
+              className="name-input"
+              autoFocus
+            />
+          </div>
+          <div className="sphere-3d"></div>
+          <div className="grain-overlay"></div>
+        </div>
+      )}
+      
+      {step === 3 && (
+        <div className="interlaced-background">
+          <div className="text-container">
+            <h1 className="main-title">
+              환영합니다. {name}님,<br />
+            </h1>
+            <p className="sub-text">오늘의 무드를 알려주세요!</p>
+          </div>
           <div className="sphere-3d"></div>
           <div className="grain-overlay"></div>
         </div>
