@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -14,6 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+  const [step, setStep] = useState(1);
+
+  const handleTouch = () => {
+    setStep(2);
+  };
+
   return (
     <>
       <Head>
@@ -22,17 +29,30 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="interlaced-background">
-        <div className="text-container">
-          <h1 className="main-title">
-            안녕하세요,<br />
-            오늘 기분은 어떠신가요?
-          </h1>
-          <p className="sub-text">한 단어로 표현해주세요!</p>
+      
+      {step === 1 && (
+        <div className="interlaced-background">
+          <div className="text-container">
+            <h1 className="main-title">
+              안녕하세요,<br />
+              오늘 기분은 어떠신가요?
+            </h1>
+            <p className="sub-text">한 단어로 표현해주세요!</p>
+          </div>
+          <div className="sphere-3d"></div>
+          <div className="grain-overlay"></div>
+          <button className="touch-button" onClick={handleTouch}>
+            TOUCH
+          </button>
         </div>
-        <div className="sphere-3d"></div>
-        <div className="grain-overlay"></div>
-      </div>
+      )}
+      
+      {step === 2 && (
+        <div className="interlaced-background">
+          <div className="sphere-3d"></div>
+          <div className="grain-overlay"></div>
+        </div>
+      )}
     </>
   );
 }

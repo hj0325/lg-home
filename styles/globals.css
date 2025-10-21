@@ -77,6 +77,56 @@ body {
   }
 }
 
+/* TOUCH 버튼 */
+.touch-button {
+  position: absolute;
+  bottom: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  
+  font-size: clamp(45px, 3.5vw, 50px);
+  font-weight: 400;
+  color: #5D5D5D;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px 40px;
+  
+  transition: all 0.3s ease;
+  letter-spacing: 0.1em;
+  
+  animation: fadeInOut 3s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.touch-button:hover {
+  color: #2D2D2D;
+  transform: translateX(-50%) scale(1.05);
+  animation: none;
+  opacity: 1;
+}
+
+.touch-button:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .touch-button {
+    bottom: 60px;
+    font-size: clamp(16px, 4vw, 20px);
+    padding: 15px 30px;
+  }
+}
+
 /* 글래스 왜곡 효과 오버레이 */
 .grain-overlay {
   position: absolute;
