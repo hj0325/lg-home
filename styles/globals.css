@@ -291,17 +291,40 @@ body {
 }
 
 @keyframes morphShape {
-  0%, 100% {
+  0% {
     border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+    width: min(900px, 130vw);
+    height: min(900px, 130vw);
   }
-  25% {
-    border-radius: 52% 48% 53% 47% / 51% 45% 55% 49%;
+  15% {
+    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+    width: min(900px, 130vw);
+    height: min(900px, 130vw);
+  }
+  30% {
+    border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
+    width: min(1400px, 180vw);
+    height: min(1100px, 150vw);
   }
   50% {
-    border-radius: 47% 53% 48% 52% / 49% 55% 45% 51%;
+    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+    width: min(900px, 130vw);
+    height: min(900px, 130vw);
   }
-  75% {
-    border-radius: 53% 47% 52% 48% / 55% 49% 51% 45%;
+  65% {
+    border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
+    width: min(1500px, 190vw);
+    height: min(1200px, 160vw);
+  }
+  80% {
+    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+    width: min(900px, 130vw);
+    height: min(900px, 130vw);
+  }
+  100% {
+    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+    width: min(900px, 130vw);
+    height: min(900px, 130vw);
   }
 }
 
@@ -313,13 +336,13 @@ body {
     transform: translate(-50%, calc(-50% - 180px));
   }
   30% {
-    transform: translate(-50%, calc(-50% + 100px));
+    transform: translate(-50%, calc(-50% + 120px));
   }
   50% {
     transform: translate(-50%, calc(-50% - 220px));
   }
   65% {
-    transform: translate(-50%, calc(-50% + 50px));
+    transform: translate(-50%, calc(-50% + 80px));
   }
   80% {
     transform: translate(-50%, calc(-50% - 160px));
@@ -334,6 +357,44 @@ body {
   .sphere-3d {
     width: min(500px, 110vw);
     height: min(500px, 110vw);
+  }
+  
+  @keyframes morphShape {
+    0% {
+      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+      width: min(500px, 110vw);
+      height: min(500px, 110vw);
+    }
+    15% {
+      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+      width: min(500px, 110vw);
+      height: min(500px, 110vw);
+    }
+    30% {
+      border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
+      width: min(800px, 170vw);
+      height: min(650px, 140vw);
+    }
+    50% {
+      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+      width: min(500px, 110vw);
+      height: min(500px, 110vw);
+    }
+    65% {
+      border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
+      width: min(850px, 180vw);
+      height: min(700px, 150vw);
+    }
+    80% {
+      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+      width: min(500px, 110vw);
+      height: min(500px, 110vw);
+    }
+    100% {
+      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
+      width: min(500px, 110vw);
+      height: min(500px, 110vw);
+    }
   }
 }
 
