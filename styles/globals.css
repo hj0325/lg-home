@@ -287,7 +287,7 @@ body {
   border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
   filter: blur(40px);
   z-index: 1;
-  animation: morphShape 12s ease-in-out infinite, floatFlow 8s ease-in-out infinite;
+  animation: morphShape 12s ease-in-out infinite, floatFlow 10s ease-in-out infinite;
 }
 
 @keyframes morphShape {
@@ -309,14 +309,20 @@ body {
   0% {
     transform: translate(-50%, -50%);
   }
-  25% {
-    transform: translate(-50%, calc(-50% - 80px));
+  15% {
+    transform: translate(-50%, calc(-50% - 180px));
+  }
+  30% {
+    transform: translate(-50%, calc(-50% + 100px));
   }
   50% {
-    transform: translate(-50%, calc(-50% - 40px));
+    transform: translate(-50%, calc(-50% - 220px));
   }
-  75% {
-    transform: translate(-50%, calc(-50% - 100px));
+  65% {
+    transform: translate(-50%, calc(-50% + 50px));
+  }
+  80% {
+    transform: translate(-50%, calc(-50% - 160px));
   }
   100% {
     transform: translate(-50%, -50%);
