@@ -1,3 +1,16 @@
+/* CSS Custom Properties 등록 (그라데이션 트랜지션을 위해) */
+@property --gradient-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --gradient-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 30%;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -42,6 +55,25 @@ body {
   z-index: 10;
   padding: 180px 70px;
   max-width: 1200px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.text-container.fade-out {
+  opacity: 0;
+}
+
+.text-container.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .main-title {
@@ -92,8 +124,9 @@ body {
   border: none;
   cursor: pointer;
   padding: 20px 40px;
+  opacity: 1;
   
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, opacity 0.6s ease-in-out;
   letter-spacing: 0.1em;
   
   animation: fadeInOut 3s ease-in-out infinite;
@@ -263,7 +296,7 @@ body {
   }
 }
 
-/* 하단 큰 원형 그라데이션 */
+/* 하단 큰 원형 그라데이션 - 강화된 blob 효과 */
 .sphere-3d {
   position: absolute;
   top: 70%;
@@ -271,60 +304,243 @@ body {
   transform: translate(-50%, -50%);
   width: min(900px, 130vw);
   height: min(900px, 130vw);
+  --gradient-x: 50%;
+  --gradient-y: 30%;
   background: 
-    radial-gradient(circle at 50% 30%, 
-      rgb(241, 228, 203) 0%,
-      rgba(252, 211, 224, 0.95) 10%,
+    radial-gradient(circle at var(--gradient-x) var(--gradient-y), 
+      rgba(255, 217, 233, 0.95) 0%,
+      rgba(251, 201, 221, 0.95) 10%,
       rgba(237, 170, 215, 0.9) 20%,
-      rgba(226, 145, 199, 0.8) 30%,
+      rgba(255, 167, 226, 0.8) 30%,
       rgba(226, 145, 199, 0.7) 40%,
       rgba(239, 170, 207, 0.6) 60%,
       rgba(240, 192, 247, 0.5) 70%,
       rgba(252, 208, 230, 0.4) 80%,
       rgba(255, 212, 221, 0.3) 80%,
-      rgba(250, 255, 216, 0.2) 80%,
+      rgba(255, 225, 240, 0.2) 80%,
       transparent 100%);
-  border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-  filter: blur(40px);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  filter: blur(45px) contrast(1.3) saturate(1.1);
   z-index: 1;
-  animation: morphShape 12s ease-in-out infinite, floatFlow 10s ease-in-out infinite;
+  animation: blobMorph 10s ease-in-out infinite, 
+             blobPulse 7s ease-in-out infinite,
+             blobFloat 15s ease-in-out infinite,
+             blobFloatVertical 12s ease-in-out infinite;
+  transition: width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              height 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              --gradient-x 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              --gradient-y 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-@keyframes morphShape {
+/* 두 번째 화면에서만 top과 left transition 적용 */
+.sphere-3d.sphere-small {
+  animation: blobMorph 10s ease-in-out infinite, 
+             blobPulse 7s ease-in-out infinite;
+  transition: top 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              height 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              --gradient-x 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              --gradient-y 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 추가 레이어로 깊이감 생성 */
+.sphere-3d::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  transform: translate(-50%, -50%);
+  background: 
+    radial-gradient(circle at 60% 40%, 
+      rgba(255, 230, 245, 0.15) 0%,
+      rgba(252, 211, 224, 0.1) 20%,
+      rgba(237, 170, 215, 0.05) 40%,
+      transparent 70%);
+  border-radius: 35% 65% 65% 35% / 40% 40% 60% 60%;
+  filter: blur(35px);
+  animation: blobLayer1 12s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.sphere-3d::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 110%;
+  height: 110%;
+  transform: translate(-50%, -50%);
+  background: 
+    radial-gradient(circle at 40% 60%, 
+      rgba(240, 192, 247, 0.12) 0%,
+      rgba(226, 145, 199, 0.08) 25%,
+      rgba(239, 170, 207, 0.04) 50%,
+      transparent 75%);
+  border-radius: 40% 60% 60% 40% / 35% 35% 65% 65%;
+  filter: blur(30px);
+  animation: blobLayer2 14s ease-in-out infinite 1s;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 두 번째 화면 - 구체가 위로 이동하며 커짐 */
+.sphere-3d.sphere-small {
+  top: 30%;
+  width: min(1200px, 160vw);
+  height: min(1200px, 160vw);
+  --gradient-x: 50%;
+  --gradient-y: 30%;
+  background: 
+    radial-gradient(circle at var(--gradient-x) var(--gradient-y), 
+      rgba(255, 220, 235, 0.3) 0%,
+      rgba(245, 179, 200, 0.9) 10%,
+      rgba(237, 170, 215, 0.85) 20%,
+      rgba(226, 145, 199, 0.75) 30%,
+      rgba(226, 145, 199, 0.65) 40%,
+      rgba(239, 170, 207, 0.55) 60%,
+      rgba(240, 192, 247, 0.45) 70%,
+      rgba(252, 208, 230, 0.35) 80%,
+      rgba(255, 212, 221, 0.25) 80%,
+      rgba(255, 225, 240, 0.15) 80%,
+      transparent 100%);
+}
+
+/* Blob morphing 애니메이션 - 더 복잡하고 유동적 */
+@keyframes blobMorph {
   0% {
-    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-    width: min(900px, 130vw);
-    height: min(900px, 130vw);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   }
-  15% {
-    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-    width: min(900px, 130vw);
-    height: min(900px, 130vw);
+  10% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+  }
+  20% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
   }
   30% {
-    border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
-    width: min(1400px, 180vw);
-    height: min(1100px, 150vw);
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+  }
+  40% {
+    border-radius: 74% 26% 47% 53% / 68% 46% 54% 32%;
   }
   50% {
-    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-    width: min(900px, 130vw);
-    height: min(900px, 130vw);
+    border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
   }
-  65% {
-    border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
-    width: min(1500px, 190vw);
-    height: min(1200px, 160vw);
+  60% {
+    border-radius: 45% 55% 34% 66% / 38% 70% 30% 62%;
+  }
+  70% {
+    border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
   }
   80% {
-    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-    width: min(900px, 130vw);
-    height: min(900px, 130vw);
+    border-radius: 52% 48% 67% 33% / 44% 56% 44% 56%;
+  }
+  90% {
+    border-radius: 38% 62% 48% 52% / 70% 35% 65% 30%;
   }
   100% {
-    border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-    width: min(900px, 130vw);
-    height: min(900px, 130vw);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+}
+
+/* Blob 미세 움직임 애니메이션 (filter 기반) */
+@keyframes blobPulse {
+  0%, 100% {
+    filter: blur(45px) contrast(1.3) saturate(1.1);
+  }
+  33% {
+    filter: blur(43px) contrast(1.32) saturate(1.12);
+  }
+  66% {
+    filter: blur(47px) contrast(1.28) saturate(1.08);
+  }
+}
+
+/* Blob 떠다니는 움직임 (position 기반 - 좌우) */
+@keyframes blobFloat {
+  0%, 100% {
+    left: 50%;
+  }
+  20% {
+    left: 49%;
+  }
+  40% {
+    left: 51%;
+  }
+  60% {
+    left: 50.5%;
+  }
+  80% {
+    left: 49.5%;
+  }
+}
+
+/* Blob 위아래 움직임 (top 기반) */
+@keyframes blobFloatVertical {
+  0%, 100% {
+    top: 70%;
+  }
+  25% {
+    top: 68%;
+  }
+  50% {
+    top: 72%;
+  }
+  75% {
+    top: 69%;
+  }
+}
+
+/* 레이어 1 애니메이션 */
+@keyframes blobLayer1 {
+  0% {
+    border-radius: 35% 65% 65% 35% / 40% 40% 60% 60%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.5;
+  }
+  33% {
+    border-radius: 60% 40% 50% 50% / 55% 45% 55% 45%;
+    transform: translate(-48%, -52%) rotate(120deg);
+    opacity: 0.7;
+  }
+  66% {
+    border-radius: 45% 55% 60% 40% / 50% 50% 50% 50%;
+    transform: translate(-52%, -48%) rotate(240deg);
+    opacity: 0.6;
+  }
+  100% {
+    border-radius: 35% 65% 65% 35% / 40% 40% 60% 60%;
+    transform: translate(-50%, -50%) rotate(360deg);
+    opacity: 0.5;
+  }
+}
+
+/* 레이어 2 애니메이션 */
+@keyframes blobLayer2 {
+  0% {
+    border-radius: 40% 60% 60% 40% / 35% 35% 65% 65%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.4;
+  }
+  40% {
+    border-radius: 55% 45% 45% 55% / 60% 40% 60% 40%;
+    transform: translate(-52%, -50%) rotate(-140deg);
+    opacity: 0.6;
+  }
+  80% {
+    border-radius: 50% 50% 55% 45% / 45% 55% 45% 55%;
+    transform: translate(-48%, -51%) rotate(-280deg);
+    opacity: 0.5;
+  }
+  100% {
+    border-radius: 40% 60% 60% 40% / 35% 35% 65% 65%;
+    transform: translate(-50%, -50%) rotate(-360deg);
+    opacity: 0.4;
   }
 }
 
@@ -357,44 +573,38 @@ body {
   .sphere-3d {
     width: min(500px, 110vw);
     height: min(500px, 110vw);
+    filter: blur(40px) contrast(1.2) saturate(1.1);
   }
   
-  @keyframes morphShape {
-    0% {
-      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-      width: min(500px, 110vw);
-      height: min(500px, 110vw);
-    }
-    15% {
-      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-      width: min(500px, 110vw);
-      height: min(500px, 110vw);
-    }
-    30% {
-      border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
-      width: min(800px, 170vw);
-      height: min(650px, 140vw);
-    }
-    50% {
-      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-      width: min(500px, 110vw);
-      height: min(500px, 110vw);
-    }
-    65% {
-      border-radius: 50% 50% 0% 0% / 50% 50% 0% 0%;
-      width: min(850px, 180vw);
-      height: min(700px, 150vw);
-    }
-    80% {
-      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-      width: min(500px, 110vw);
-      height: min(500px, 110vw);
-    }
-    100% {
-      border-radius: 48% 52% 47% 53% / 45% 51% 49% 55%;
-      width: min(500px, 110vw);
-      height: min(500px, 110vw);
-    }
+  /* 모바일 레이어 최적화 */
+  .sphere-3d::before {
+    filter: blur(30px);
+  }
+  
+  .sphere-3d::after {
+    filter: blur(25px);
+  }
+  
+  /* 작은 구체 모드 - 모바일 (위로 이동하며 커짐) */
+  .sphere-3d.sphere-small {
+    top: 35%;
+    width: min(700px, 140vw);
+    height: min(700px, 140vw);
+    --gradient-x: 50%;
+    --gradient-y: 30%;
+    background: 
+      radial-gradient(circle at var(--gradient-x) var(--gradient-y), 
+        rgba(255, 220, 235, 0.3) 0%,
+        rgba(252, 211, 224, 0.9) 10%,
+        rgba(237, 170, 215, 0.85) 20%,
+        rgba(226, 145, 199, 0.75) 30%,
+        rgba(226, 145, 199, 0.65) 40%,
+        rgba(239, 170, 207, 0.55) 60%,
+        rgba(240, 192, 247, 0.45) 70%,
+        rgba(252, 208, 230, 0.35) 80%,
+        rgba(255, 212, 221, 0.25) 80%,
+        rgba(255, 225, 240, 0.15) 80%,
+        transparent 100%);
   }
 }
 
@@ -475,5 +685,297 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+/* 음성 인식 UI */
+.voice-input-display {
+  width: 100%;
+  min-height: 80px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.button-group {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.voice-button {
+  width: 100%;
+  padding: 20px 40px;
+  background: rgba(100, 60, 200, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(100, 60, 200, 0.3);
+}
+
+.voice-button:hover {
+  background: rgba(100, 60, 200, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 60, 200, 0.4);
+}
+
+.voice-button.listening {
+  background: rgba(220, 60, 100, 0.9);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.voice-button.confirm {
+  background: rgba(60, 180, 100, 0.9);
+  box-shadow: 0 4px 15px rgba(60, 180, 100, 0.3);
+}
+
+.voice-button.confirm:hover {
+  background: rgba(60, 180, 100, 1);
+  box-shadow: 0 6px 20px rgba(60, 180, 100, 0.4);
+}
+
+.voice-button.restart {
+  background: rgba(100, 120, 200, 0.8);
+  box-shadow: 0 4px 15px rgba(100, 120, 200, 0.3);
+}
+
+.voice-button.restart:hover {
+  background: rgba(100, 120, 200, 1);
+  box-shadow: 0 6px 20px rgba(100, 120, 200, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 15px rgba(220, 60, 100, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 25px rgba(220, 60, 100, 0.5);
+  }
+}
+
+/* ========================================
+   새로운 구체 효과 (Test.js용)
+   ======================================== */
+
+.wrapper {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140vw;
+  height: 140vw;
+  margin: auto;
+  opacity: 0;
+  z-index: 1;
+  /* 블러가 제대로 표시되도록 딜레이 */
+  transition: opacity 1s 1s;
+}
+
+.wrapper.is-loaded {
+  opacity: 1;
+}
+
+.circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+/* 밝은 중심 원 - 분홍/흰색 그라데이션 */
+.bright {
+  width: 80vw;
+  height: 80vw;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 1) 30%,
+    rgba(255, 182, 193, 0.6)
+  );
+  z-index: 2;
+  animation: brightmove 4s ease-in-out infinite, brightWave 8s ease-in-out infinite;
+  border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+}
+
+/* 다채로운 배경 원 - 분홍 계열 그라데이션 */
+.colorful {
+  width: 88vw;
+  height: 88vw;
+  background: 
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    radial-gradient(
+      ellipse at 70% 60%, 
+      #ffc4e1 0%, 
+      rgba(255, 196, 225, 0) 90%
+    ),
+    radial-gradient(
+      ellipse at 30% 30%, 
+      #ffb3d9 0%, 
+      rgba(255, 179, 217, 0) 60%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      #e64b8d 0%,
+      rgba(230, 75, 141, 0) 70%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(226, 145, 199, 0) 0%,
+      rgba(226, 145, 199, 0) 75%,
+      #d891c7 100%
+    ),
+    linear-gradient(
+      to right, 
+      #d891c7 0%, 
+      #f5a9c5 35%, 
+      #fff 65%, 
+      #ffc0e3 100%
+    );
+  background-blend-mode: overlay, luminosity, color-dodge, saturation, screen, color;
+  animation: bless 4.2s ease-in-out 0.15s infinite, colorfulWave 10s ease-in-out infinite;
+  border-radius: 35% 65% 60% 40% / 50% 45% 55% 50%;
+}
+
+/* 밝은 원 애니메이션 - y축 움직임 + 크기 변화 */
+@keyframes brightmove {
+  0% {
+    transform: translate(-5%, -22%) scale(0.96);
+    filter: blur(3vw);
+  }
+  50% {
+    transform: translate(-5%, 8%) scale(1.06);
+    filter: blur(3.8vw);
+  }
+  100% {
+    transform: translate(-5%, -22%) scale(0.96);
+    filter: blur(3vw);
+  }
+}
+
+/* 밝은 원 - 외곽 일렁임 */
+@keyframes brightWave {
+  0% {
+    border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+  }
+  25% {
+    border-radius: 55% 45% 65% 35% / 45% 60% 40% 55%;
+  }
+  50% {
+    border-radius: 35% 65% 45% 55% / 55% 40% 60% 45%;
+  }
+  75% {
+    border-radius: 60% 40% 50% 50% / 40% 55% 45% 60%;
+  }
+  100% {
+    border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+  }
+}
+
+/* 다채로운 원 애니메이션 - y축 움직임 + 크기 변화 */
+@keyframes bless {
+  0% {
+    transform: rotate(180deg) translate(0%, -18%) scale(0.97);
+    filter: blur(4.5vw);
+  }
+  50% {
+    transform: rotate(180deg) translate(0%, 6%) scale(1.05);
+    filter: blur(5.2vw);
+  }
+  100% {
+    transform: rotate(180deg) translate(0%, -18%) scale(0.97);
+    filter: blur(4.5vw);
+  }
+}
+
+/* 다채로운 원 - 외곽 일렁임 */
+@keyframes colorfulWave {
+  0% {
+    border-radius: 35% 65% 60% 40% / 50% 45% 55% 50%;
+  }
+  20% {
+    border-radius: 50% 50% 45% 55% / 60% 50% 50% 40%;
+  }
+  40% {
+    border-radius: 45% 55% 70% 30% / 40% 65% 35% 60%;
+  }
+  60% {
+    border-radius: 60% 40% 35% 65% / 55% 40% 60% 45%;
+  }
+  80% {
+    border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
+  }
+  100% {
+    border-radius: 35% 65% 60% 40% / 50% 45% 55% 50%;
+  }
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .wrapper {
+    width: 160vw;
+    height: 160vw;
+    top: 58%;
+  }
+  
+  .bright {
+    width: 100vw;
+    height: 100vw;
+  }
+  
+  .colorful {
+    width: 110vw;
+    height: 110vw;
+  }
+  
+  @keyframes brightmove {
+    0% {
+      transform: translate(-3%, -20%) scale(0.97);
+      filter: blur(5vw);
+    }
+    50% {
+      transform: translate(-3%, 7%) scale(1.05);
+      filter: blur(6vw);
+    }
+    100% {
+      transform: translate(-3%, -20%) scale(0.97);
+      filter: blur(5vw);
+    }
+  }
+  
+  @keyframes bless {
+    0% {
+      transform: rotate(180deg) translate(0%, -16%) scale(0.98);
+      filter: blur(6vw);
+    }
+    50% {
+      transform: rotate(180deg) translate(0%, 5%) scale(1.04);
+      filter: blur(7vw);
+    }
+    100% {
+      transform: rotate(180deg) translate(0%, -16%) scale(0.98);
+      filter: blur(6vw);
+    }
   }
 }

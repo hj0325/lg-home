@@ -1,0 +1,6 @@
+- yarn, not npm
+- javascript, not typescript
+- Next js Pages Router, not App Router
+- Next.js dev 서버는 `-H 0.0.0.0` 옵션으로 실행하여 로컬 네트워크(모바일)에서도 접속 가능하게 설정
+
+

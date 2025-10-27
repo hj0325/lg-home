@@ -1,22 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export default function Home() {
+export default function Test() {
   const [step, setStep] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const handleTouch = () => {
     setIsTransitioning(true);
@@ -31,8 +23,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>인터레이스 그라데이션</title>
-        <meta name="description" content="아름다운 인터레이스 그라데이션 배경" />
+        <title>Test - 새로운 구체 효과</title>
+        <meta name="description" content="새로운 구체 효과 테스트" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -57,7 +49,11 @@ export default function Home() {
           </div>
         )}
         
-        <div className={`sphere-3d ${step === 2 ? 'sphere-small' : ''}`}></div>
+        <div id="js-wrapper" className={`wrapper ${isLoaded ? 'is-loaded' : ''}`}>
+          <div className="circle bright"></div>
+          <div className="circle colorful"></div>
+        </div>
+        
         <div className="grain-overlay"></div>
         
         {step === 1 && !isTransitioning && (
