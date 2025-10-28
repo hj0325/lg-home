@@ -14,14 +14,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --bg-purple: #E9E9E9;
+  --bg-purple: #E8E3D8;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --bg-purple: #E9E9E9;
+    --bg-purple: #E8E3D8;
   }
 }
 
@@ -39,11 +39,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 연보라색 배경 */
+/* 그라데이션 배경 - 크림(녹빛) → 하양 */
 .interlaced-background {
   position: relative;
   min-height: 100vh;
-  background: var(--bg-purple);
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    #e4e8d0 0%,
+    #C5C8B6 15%,
+    #C5C8B6 30%,
+    #E7DBD4 50%,
+    #FAFAF8 70%,
+    #f5f5ed 100%
+  );
   overflow: hidden;
 }
 
@@ -800,134 +809,175 @@ a {
   margin: auto;
 }
 
-/* 밝은 중심 원 - 분홍/흰색 그라데이션 */
-.bright {
-  width: 80vw;
-  height: 80vw;
-  background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 1) 30%,
-    rgba(255, 182, 193, 0.6)
-  );
+/* 메인 구체 - Progressive blur 효과 */
+.main-sphere {
+  width: 100vw;
+  height: 100vw;
+  position: relative;
   z-index: 2;
-  animation: brightmove 4s ease-in-out infinite, brightWave 8s ease-in-out infinite;
-  border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+  animation: mainSpherMove 5s ease-in-out infinite, mainSphereWave 9s ease-in-out infinite;
+  border-radius: 45% 55% 52% 48% / 48% 52% 48% 52%;
 }
 
-/* 다채로운 배경 원 - 분홍 계열 그라데이션 */
-.colorful {
-  width: 88vw;
-  height: 88vw;
+.main-sphere::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: 
     radial-gradient(
-      ellipse at 50% 50%,
-      rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    radial-gradient(
-      ellipse at 70% 60%, 
-      #ffc4e1 0%, 
-      rgba(255, 196, 225, 0) 90%
-    ),
-    radial-gradient(
-      ellipse at 30% 30%, 
-      #ffb3d9 0%, 
-      rgba(255, 179, 217, 0) 60%
-    ),
-    radial-gradient(
-      ellipse at bottom left,
-      #e64b8d 0%,
-      rgba(230, 75, 141, 0) 70%
-    ),
-    linear-gradient(
-      135deg,
-      rgba(226, 145, 199, 0) 0%,
-      rgba(226, 145, 199, 0) 75%,
-      #d891c7 100%
-    ),
-    linear-gradient(
-      to right, 
-      #d891c7 0%, 
-      #f5a9c5 35%, 
-      #fff 65%, 
-      #ffc0e3 100%
+      circle at 50% 50%,
+      #D3BDB9 0%,
+      #E1B9A8 8%,
+      #FBA09F 28%,
+      #E3A697 52%,
+      #C7B8A2 68%,
+      #C4C2B5 88%,
+      transparent 100%
     );
-  background-blend-mode: overlay, luminosity, color-dodge, saturation, screen, color;
-  animation: bless 4.2s ease-in-out 0.15s infinite, colorfulWave 10s ease-in-out infinite;
-  border-radius: 35% 65% 60% 40% / 50% 45% 55% 50%;
+  filter: blur(2vw) brightness(1.05);
+  border-radius: inherit;
+  z-index: 1;
 }
 
-/* 밝은 원 애니메이션 - y축 움직임 + 크기 변화 */
-@keyframes brightmove {
+.main-sphere::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0%,
+      transparent 30%,
+      rgba(211, 189, 185, 0.6) 40%,
+      rgba(225, 185, 168, 0.5) 50%,
+      rgba(251, 160, 159, 0.4) 65%,
+      rgba(227, 166, 151, 0.3) 75%,
+      rgba(199, 184, 162, 0.2) 85%,
+      transparent 100%
+    );
+  filter: blur(18vw) brightness(1.08);
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* 잔상 구체 - Progressive blur 효과 */
+.trail-sphere {
+  width: 65vw;
+  height: 65vw;
+  position: relative;
+  z-index: 1;
+  animation: trailSpherMove 5s ease-in-out infinite 0.2s, trailSphereWave 9s ease-in-out infinite 0.3s;
+  border-radius: 48% 52% 45% 55% / 52% 48% 55% 45%;
+  transform: translate(-8%, 50%);
+  opacity: 0.7;
+}
+
+.trail-sphere::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(211, 189, 185, 0.7) 0%,
+      rgba(225, 185, 168, 0.6) 20%,
+      rgba(251, 160, 159, 0.5) 40%,
+      transparent 70%
+    );
+  filter: blur(1.5vw) brightness(1.05);
+  border-radius: inherit;
+}
+
+.trail-sphere::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0%,
+      transparent 35%,
+      rgba(227, 166, 151, 0.4) 50%,
+      rgba(199, 184, 162, 0.3) 70%,
+      transparent 100%
+    );
+  filter: blur(14vw) brightness(1.08);
+  border-radius: inherit;
+}
+
+/* 메인 구체 애니메이션 - 부드러운 움직임 */
+@keyframes mainSpherMove {
   0% {
-    transform: translate(-5%, -22%) scale(0.96);
-    filter: blur(3vw);
+    transform: translate(-3%, -15%) scale(0.98);
   }
   50% {
-    transform: translate(-5%, 8%) scale(1.06);
-    filter: blur(3.8vw);
+    transform: translate(-3%, 5%) scale(1.02);
   }
   100% {
-    transform: translate(-5%, -22%) scale(0.96);
-    filter: blur(3vw);
+    transform: translate(-3%, -15%) scale(0.98);
   }
 }
 
-/* 밝은 원 - 외곽 일렁임 */
-@keyframes brightWave {
+/* 메인 구체 - 외곽 일렁임 */
+@keyframes mainSphereWave {
   0% {
-    border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+    border-radius: 45% 55% 52% 48% / 48% 52% 48% 52%;
   }
   25% {
-    border-radius: 55% 45% 65% 35% / 45% 60% 40% 55%;
+    border-radius: 52% 48% 48% 52% / 55% 45% 52% 48%;
   }
   50% {
-    border-radius: 35% 65% 45% 55% / 55% 40% 60% 45%;
+    border-radius: 48% 52% 55% 45% / 52% 48% 45% 55%;
   }
   75% {
-    border-radius: 60% 40% 50% 50% / 40% 55% 45% 60%;
+    border-radius: 55% 45% 48% 52% / 45% 55% 48% 52%;
   }
   100% {
-    border-radius: 40% 60% 50% 50% / 60% 50% 50% 40%;
+    border-radius: 45% 55% 52% 48% / 48% 52% 48% 52%;
   }
 }
 
-/* 다채로운 원 애니메이션 - y축 움직임 + 크기 변화 */
-@keyframes bless {
+/* 잔상 구체 애니메이션 - 메인 구체를 따라가는 느낌 */
+@keyframes trailSpherMove {
   0% {
-    transform: rotate(180deg) translate(0%, -18%) scale(0.97);
-    filter: blur(4.5vw);
+    transform: translate(-8%, 50%) scale(0.96);
+    opacity: 0.65;
   }
   50% {
-    transform: rotate(180deg) translate(0%, 6%) scale(1.05);
-    filter: blur(5.2vw);
+    transform: translate(-8%, 60%) scale(1.04);
+    opacity: 0.75;
   }
   100% {
-    transform: rotate(180deg) translate(0%, -18%) scale(0.97);
-    filter: blur(4.5vw);
+    transform: translate(-8%, 50%) scale(0.96);
+    opacity: 0.65;
   }
 }
 
-/* 다채로운 원 - 외곽 일렁임 */
-@keyframes colorfulWave {
+/* 잔상 구체 - 외곽 일렁임 */
+@keyframes trailSphereWave {
   0% {
-    border-radius: 35% 65% 60% 40% / 50% 45% 55% 50%;
+    border-radius: 48% 52% 45% 55% / 52% 48% 55% 45%;
   }
-  20% {
-    border-radius: 50% 50% 45% 55% / 60% 50% 50% 40%;
+  33% {
+    border-radius: 52% 48% 52% 48% / 48% 52% 48% 52%;
   }
-  40% {
-    border-radius: 45% 55% 70% 30% / 40% 65% 35% 60%;
-  }
-  60% {
-    border-radius: 60% 40% 35% 65% / 55% 40% 60% 45%;
-  }
-  80% {
-    border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
+  66% {
+    border-radius: 45% 55% 48% 52% / 55% 45% 52% 48%;
   }
   100% {
-    border-radius: 35% 65% 60% 40% / 50% 45% 55% 50%;
+    border-radius: 48% 52% 45% 55% / 52% 48% 55% 45%;
   }
 }
 
@@ -939,43 +989,56 @@ a {
     top: 58%;
   }
   
-  .bright {
-    width: 100vw;
-    height: 100vw;
+  .main-sphere {
+    width: 120vw;
+    height: 120vw;
   }
   
-  .colorful {
-    width: 110vw;
-    height: 110vw;
+  .main-sphere::before {
+    filter: blur(3vw) brightness(1.05);
   }
   
-  @keyframes brightmove {
+  .main-sphere::after {
+    filter: blur(22vw) brightness(1.08);
+  }
+  
+  .trail-sphere {
+    width: 75vw;
+    height: 75vw;
+  }
+  
+  .trail-sphere::before {
+    filter: blur(2vw) brightness(1.05);
+  }
+  
+  .trail-sphere::after {
+    filter: blur(16vw) brightness(1.08);
+  }
+  
+  @keyframes mainSpherMove {
     0% {
-      transform: translate(-3%, -20%) scale(0.97);
-      filter: blur(5vw);
+      transform: translate(-3%, -15%) scale(0.98);
     }
     50% {
-      transform: translate(-3%, 7%) scale(1.05);
-      filter: blur(6vw);
+      transform: translate(-3%, 5%) scale(1.02);
     }
     100% {
-      transform: translate(-3%, -20%) scale(0.97);
-      filter: blur(5vw);
+      transform: translate(-3%, -15%) scale(0.98);
     }
   }
   
-  @keyframes bless {
+  @keyframes trailSpherMove {
     0% {
-      transform: rotate(180deg) translate(0%, -16%) scale(0.98);
-      filter: blur(6vw);
+      transform: translate(-8%, 50%) scale(0.96);
+      opacity: 0.65;
     }
     50% {
-      transform: rotate(180deg) translate(0%, 5%) scale(1.04);
-      filter: blur(7vw);
+      transform: translate(-8%, 60%) scale(1.04);
+      opacity: 0.75;
     }
     100% {
-      transform: rotate(180deg) translate(0%, -16%) scale(0.98);
-      filter: blur(6vw);
+      transform: translate(-8%, 50%) scale(0.96);
+      opacity: 0.65;
     }
   }
 }

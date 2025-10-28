@@ -50,8 +50,8 @@ export default function Test() {
         )}
         
         <div id="js-wrapper" className={`wrapper ${isLoaded ? 'is-loaded' : ''}`}>
-          <div className="circle bright"></div>
-          <div className="circle colorful"></div>
+          <div className="circle main-sphere"></div>
+          <div className="circle trail-sphere"></div>
         </div>
         
         <div className="grain-overlay"></div>
